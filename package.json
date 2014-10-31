@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-ramdisk",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Use a ramdisk as your tmp directory for speedy builds",
   "main": "index.js",
   "scripts": {
