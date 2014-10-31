@@ -8,7 +8,14 @@ var RAMDISK_BYTES = 2 * 1024 * 1024 * 1024;
 var BLOCK_SIZE = 512;
 var RAMDISK_BLOCKS = RAMDISK_BYTES / BLOCK_SIZE;
 var RAMDISK_NAME = "EmberCliRamdisk";
-var RAMDISK_PATH = "/Volumes/" + RAMDISK_NAME;
+var RAMDISK_PATH = (function(){
+  switch (process.platform){
+    case "darwin":
+      return "/Volumes/" + RAMDISK_NAME;
+    case "linux":
+      return "/mnt/" + RAMDISK_NAME;
+    }
+})();
 
 function ramdiskExists() {
   return fs.existsSync(RAMDISK_PATH);
@@ -32,11 +39,21 @@ function removeOldTmpDirectory(projectTmpPath) {
 }
 
 function createRamdiskDevice() {
-  return runCommand('hdiutil attach -nomount ram://' + RAMDISK_BLOCKS).trim();
+  switch (process.platform){
+    case "darwin":
+      return runCommand('hdiutil attach -nomount ram://' + RAMDISK_BLOCKS).trim();
+    case "linux":
+      return runCommand('sudo mkdir -p '+RAMDISK_PATH);
+  }
 }
 
 function mountRamdiskDevice(devicePath) {
-  return runCommand("diskutil erasevolume HFS+ " + RAMDISK_NAME + " " + devicePath);
+  switch (process.platform){
+    case "darwin":
+      return runCommand("diskutil erasevolume HFS+ " + RAMDISK_NAME + " " + devicePath);
+    case "linux":
+      return runCommand('sudo mount -t tmpfs -o size='+RAMDISK_BYTES+' tmpfs '+RAMDISK_PATH);
+  }
 }
 
 function createRamdiskIfNecessary() {
@@ -64,8 +81,8 @@ module.exports = {
 
     var projectTmpPath = app.project.root + "/tmp";
 
-    if (process.platform !== 'darwin') {
-      console.log("ember-cli-ramdisk presently only supports Mac. No ramdisk will be installed.")
+    if (process.platform !== 'darwin' && process.platform !== 'linux') {
+      console.log("ember-cli-ramdisk presently only supports Mac and Linux. No ramdisk will be installed. Current: "+process.platform);
       return;
     }
 
@@ -84,4 +101,3 @@ module.exports = {
     console.log("ember-cli-ramdisk: your ramdisk has been created at " + RAMDISK_PATH + ". Enjoy your speedy builds.");
   }
 };
-
