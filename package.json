@@ -1,0 +1,26 @@
+{
+  "name": "ember-cli-ramdisk",
+  "version": "0.0.1",
+  "description": "Use a ramdisk as your tmp directory for speedy builds",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ember-addon"
+  ],
+  "author": "Alex Matchneer <machty@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "execSync": "^1.0.2",
+    "rimraf": "^2.2.8"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ExpressCheckout/ember-cli-ramdisk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ExpressCheckout/ember-cli-ramdisk/issues"
+  },
+  "homepage": "https://github.com/ExpressCheckout/ember-cli-ramdisk"
+}
