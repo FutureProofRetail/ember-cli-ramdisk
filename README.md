@@ -1,8 +1,15 @@
 ## ember-cli-ramdisk
 
-Mounts your broccoli `tmp` folder in RAM for speedier builds.
+`ember-cli` addon that mounts your broccoli `tmp` folder in RAM 
+for speedier builds.
 
 Presently only supports OS X (Darwin).
+
+## Installation
+
+From your ember-cli project folder:
+
+    npm install ember-cli-ramdisk --save-dev
 
 ## Background
 
