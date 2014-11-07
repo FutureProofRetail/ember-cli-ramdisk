@@ -1,7 +1,7 @@
 'use strict';
 
 var fs = require('fs');
-var execSync = require('execSync').exec;
+var execSync = require('execsyncs');
 var rimraf = require('rimraf');
 
 var RAMDISK_BYTES = 2 * 1024 * 1024 * 1024;
@@ -23,12 +23,11 @@ function ramdiskExists() {
 
 function runCommand(command) {
   console.log("ember-cli-ramdisk: " + command);
-
-  var result = execSync(command);
-  if (result.code !== 0) {
-    throw new Error("ember-cli-ramdisk: error running command(" + result.code + "): " + result.stdout);
+  try {
+    return  execSync(command).toString();
+  } catch(e) {
+    throw new Error("ember-cli-ramdisk: error running command(" + command + "): " + e.message);
   }
-  return result.stdout;
 }
 
 function removeOldTmpDirectory(projectTmpPath) {
