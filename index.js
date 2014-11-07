@@ -38,7 +38,7 @@ function removeOldTmpDirectory(projectTmpPath) {
 }
 
 function createRamdiskDevice() {
-  switch (process.platform){
+  switch (process.platform) {
     case "darwin":
       return runCommand('hdiutil attach -nomount ram://' + RAMDISK_BLOCKS).trim();
     case "linux":
@@ -47,7 +47,7 @@ function createRamdiskDevice() {
 }
 
 function mountRamdiskDevice(devicePath) {
-  switch (process.platform){
+  switch (process.platform) {
     case "darwin":
       return runCommand("diskutil erasevolume HFS+ " + RAMDISK_NAME + " " + devicePath);
     case "linux":
