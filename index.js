@@ -80,7 +80,7 @@ module.exports = {
 
     var projectTmpPath = app.project.root + "/tmp";
 
-    if (process.platform !== 'darwin' && process.platform !== 'linux') {
+    if (process.platform !== 'darwin') {
       console.log("ember-cli-ramdisk presently only supports Mac and Linux. No ramdisk will be installed. Current: "+process.platform);
       return;
     }
