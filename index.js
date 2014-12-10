@@ -31,9 +31,7 @@ function runCommand(command) {
 }
 
 function removeOldTmpDirectory(projectTmpPath) {
-  if (fs.readdirSync(projectTmpPath).length > 0) {
-    throw new Error("Your " + projectTmpPath + " directory isn't empty. Please empty it or remove it so that ember-cli-ramdisk can take its place.");
-  }
+  console.warn("Your " + projectTmpPath + " directory isn't empty.  Removing directory.");
   rimraf.sync(projectTmpPath);
 }
 
@@ -80,7 +78,7 @@ module.exports = {
 
     var projectTmpPath = app.project.root + "/tmp";
 
-    if (process.platform !== 'darwin') {
+    if (process.platform !== 'darwin' && process.platform !== 'linux') {
       console.log("ember-cli-ramdisk presently only supports Mac and Linux. No ramdisk will be installed. Current: "+process.platform);
       return;
     }
