@@ -67,9 +67,7 @@ function createRamdiskIfNecessary() {
 function createSymlink(projectTmpPath, projectName) {
   var ramdiskTmpPath = RAMDISK_PATH + "/" + projectName;
 
-  if (!fs.existsSync(ramdiskTmpPath)) {
-    fs.mkdirSync(ramdiskTmpPath);
-  }
+  try { fs.mkdirSync(ramdiskTmpPath); } catch(e) {}
 
   fs.symlinkSync(ramdiskTmpPath, projectTmpPath, 'dir');
 }
