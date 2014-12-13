@@ -85,18 +85,22 @@ module.exports = {
       return;
     }
 
-    if (fs.existsSync(projectTmpPath)) {
-      if (fs.lstatSync(projectTmpPath).isSymbolicLink()) {
-        if (fs.readlinkSync(projectTmpPath).indexOf(RAMDISK_PATH) === -1) {
-          throw new Error("It seems like you've already symlinked your tmp directory elsewhere; please rm it and try again.");
+    try {
+      if (fs.existsSync(projectTmpPath)) {
+        if (fs.lstatSync(projectTmpPath).isSymbolicLink()) {
+          if (fs.readlinkSync(projectTmpPath).indexOf(RAMDISK_PATH) === -1) {
+            throw new Error("It seems like you've already symlinked your tmp directory elsewhere; please rm it and try again.");
+          }
+          return;
         }
-        return;
+        removeOldTmpDirectory(projectTmpPath);
       }
-      removeOldTmpDirectory(projectTmpPath);
-    }
 
-    createRamdiskIfNecessary();
-    createSymlink(projectTmpPath, app.project.pkg.name);
-    console.log("ember-cli-ramdisk: your ramdisk has been created at " + RAMDISK_PATH + ". Enjoy your speedy builds.");
+      createRamdiskIfNecessary();
+      createSymlink(projectTmpPath, app.project.pkg.name);
+      console.log("ember-cli-ramdisk: your ramdisk has been created at " + RAMDISK_PATH + ". Enjoy your speedy builds.");
+    } catch(e) {
+      console.log("ember-cli-ramdisk: WARNING: failed to install ramdisk: ", e.stack);
+    }
   }
 };
