@@ -30,10 +30,11 @@ function runCommand(command) {
   }
 }
 
-function removeOldTmpDirectory(projectTmpPath) {
-  if (fs.readdirSync(projectTmpPath).length > 0) {
+function removeOldTmpDirectory(projectTmpPath, options) {
+  if (fs.readdirSync(projectTmpPath).length > 0 && !options.removeTmp) {
     throw new Error("Your " + projectTmpPath + " directory isn't empty. Please empty it or remove it so that ember-cli-ramdisk can take its place.");
   }
+
   rimraf.sync(projectTmpPath);
 }
 
@@ -75,6 +76,11 @@ function createSymlink(projectTmpPath, projectName) {
 module.exports = {
   name: 'ember-cli-ramdisk',
   included: function(app) {
+    var options = app.options.ramdisk || {};
+
+    if (options.disabled) {
+      return;
+    }
 
     var projectTmpPath = app.project.root + "/tmp";
 
@@ -91,7 +97,7 @@ module.exports = {
           }
           return;
         }
-        removeOldTmpDirectory(projectTmpPath);
+        removeOldTmpDirectory(projectTmpPath, options);
       }
 
       createRamdiskIfNecessary();
