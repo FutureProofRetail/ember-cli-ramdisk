@@ -76,6 +76,10 @@ module.exports = {
   name: 'ember-cli-ramdisk',
   included: function(app) {
 
+    if (process.env.RAMDISK_DISABLED) {
+      return;
+    }
+
     var projectTmpPath = app.project.root + "/tmp";
 
     if (process.platform !== 'darwin' && process.platform !== 'linux') {
