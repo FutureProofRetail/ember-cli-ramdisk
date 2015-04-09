@@ -35,10 +35,12 @@ ember addon does.
 ## Impact
 
 At this point, if you're using an up-to-date version of ember-cli, you
-probably won't notice an improvement in build times from this addon, 
-but another use case for this addon is to prevent
-[SSD thrash](https://github.com/ember-cli/ember-cli/issues/2226#issuecomment-62065304),
-or slow writes to magnetic drives. 
+probably won't notice an improvement in build times from this addon.
+
+Another use case for this addon is to prevent things like: 
+* [SSD thrash](https://github.com/ember-cli/ember-cli/issues/2226#issuecomment-62065304),
+* slow writes to magnetic drives
+* fragmenting on Copy-On-Write filesystems like btrfs - see  (http://blog.ieugen.ro/2015/03/my-experience-with-btrfs-on-debian.html)
 
 ## Details
 
