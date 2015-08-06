@@ -21,6 +21,11 @@ function ramdiskExists() {
   return fs.existsSync(RAMDISK_PATH);
 }
 
+function isRamdiskMounted(){
+  // use `cat /dev/null` to avoid exception when not found
+  return !!execSync("mount | grep 'on " + RAMDISK_PATH + " ' || cat /dev/null").toString();
+}
+
 function runCommand(command) {
   console.log("ember-cli-ramdisk: " + command);
   try {
@@ -57,7 +62,7 @@ function mountRamdiskDevice(devicePath) {
 }
 
 function createRamdiskIfNecessary() {
-  if (ramdiskExists()) {
+  if (ramdiskExists() && isRamdiskMounted()) {
     return;
   }
 
@@ -70,7 +75,10 @@ function createSymlink(projectTmpPath, projectName) {
 
   try { fs.mkdirSync(ramdiskTmpPath); } catch(e) {}
 
-  fs.symlinkSync(ramdiskTmpPath, projectTmpPath, 'dir');
+  // Sometimes it already exists and thus failed to create symlink. Cannot figure out why
+  if (!fs.existsSync(projectTmpPath)){
+    fs.symlinkSync(ramdiskTmpPath, projectTmpPath, 'dir');
+  }
 }
 
 module.exports = {
