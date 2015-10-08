@@ -12,7 +12,6 @@
   "author": "Alex Matchneer <machty@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "execsyncs": "^0.1.1",
     "rimraf": "^2.2.8"
   },
   "repository": {
